@@ -176,4 +176,8 @@ p.LOCALIZAÇÃO{
     text-align: center;
     text-decoration-line: underline;
 }
+![metal](https://github.com/heloisacastellamare/cuidar-para-o-bem/assets/126278428/789a605f-d10f-4d61-b76b-3da2b851fc9e)
+![vidro](https://github.com/heloisacastellamare/cuidar-para-o-bem/assets/126278428/782ef1d4-cfef-4cdb-a04a-a5943058b43a)
+![plastico](https://github.com/heloisacastellamare/cuidar-para-o-bem/assets/126278428/1ab1db0c-c7cb-458e-8962-37fb60822692)
+![papel](https://github.com/heloisacastellamare/cuidar-para-o-bem/assets/126278428/5e085c1d-a5c9-4ebb-80a9-a1d53f873476)
 
