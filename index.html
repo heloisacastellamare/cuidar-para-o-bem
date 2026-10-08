@@ -1,63 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RECICLA MAP - Descarte Correto de Recicláveis</title>
 
-  <title>CUIDAR PARA O BEM</title>
-  
-  <!-- HTML -->
-  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    #map { height: 520px; }
+  </style>
 </head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
 
-<body>
-  <p class="TITULO">CUIDAR PARA O BEM</p>
-
-  <h3>JUNTOS PODEMOS TRANSFORMAR</h3>
-  <!-- Project -->
-
-    <p class="texto-1">A diferença entre o lixo reciclável e o lixo comum é muito citada nos meios de comunicações, entretanto, é perseptível que tais informações ainda não estão totalmente claras, visto que parte da população ainda faz o descarte desses resíduos em locais inapropriados, como em vias públicas, próximo a córregos, praças ou até mesmo não fazem a separação e eliminam tudo em lixo comum. </h2>
-    <br>
-    <br>
-    <p class="texto-2">Reduzir, Reutilizar e Reciclar, são os “3R’s” para o avanço na sustentabilidade como um todo.  </p>
-    <br>
-
-     <div class="quadrado-reduzir">
-      <p class="texto-3">Reduzir o consumo de itens pouco usados ou até mesmo nulo, auxilia no combate de descarte inadequado e promove a conscientização de compra e consumo. </p>
+  <!-- 1. NAVBAR -->
+  <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- Substitua 'logo.jpg' pelo caminho da imagem da sua logo -->
+        <img src="logo.png" alt="Logo RECICLA MAP" class="w-10 h-10 object-contain rounded-full shadow-sm">
+        <span class="font-extrabold text-2xl text-emerald-700 tracking-tight">RECICLA MAP</span>
       </div>
-
-     <div class="quadrado-reutilizar">
-      <p class="texto-4">Reutilizar. Capaz de aproveitar algo que certamente iria para o lixo. Tal ação promove a sustentabilidade e diminui o consumo exagerado. Alguns exemplos são: um pote de manteiga pode se transformar em um “porta-treco”. </p>
-      </div>
-
-     <div class="quadrado-reciclar">
-      <p class="texto-5">Reciclar. Muito semelhante a reutilização, que visa utilizar produtos que iriam para o lixo comum, como: reutilizar casca de frutas para gerar novos alimentos. </p>
-     </div>
-
- <!--Separação do lixo-->
-  <p class="SUBTITULO">COMO FAZER A SEPARAÇÃO?</p>
-  </p>
-  <h1>Veja abaixo onde cada item deve ser colocado</h1>
-     <div class="box-img-1">
-       <div class="papel" style="background-image: url(imagens/papel.png);"></div>
-       <div class="plastico" style="background-image: url(imagens/plastico.png);"></div>
-       </div>
-     <div class="box-img-2">
-       <div class="metal" style="background-image: url(imagens/metal.png);"></div>
-       <div class="vidro" style="background-image: url(imagens/vidro.png);"></div>
+      <button onclick="obterLocalizacao()" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition">
+        <i data-lucide="locate-fixed" class="w-4 h-4"></i>
+        <span>Usar Minha Posição</span>
+      </button>
     </div>
-    <p class="texto-6">Deslize o cursor sobre a imagem para visualizar</p>
+  </nav>
 
-    <!--Mapa-->
-  <p class="LOCALIZAÇÃO">ONDE POSSO DESCARTAR MEU LIXO RECICLÁVEL?</p>
-  <h2>Esse é o ECOPONTO mais próximo dos moradores do bairro da Cidade A.E. Carvalho</h2>
-  <div class="contrainer-form">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.324475710072!2d-46.46353064038151!3d-23.52082927744881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce6131340d0d0b%3A0x1bbbaae39139d689!2sR.%20Manuel%20Alves%20da%20Rocha%2C%20584%20-%20Parque%20Guarani%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2008235-620!5e0!3m2!1spt-BR!2sbr!4v1710714362337!5m2!1spt-BR!2sbr" width="500" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-  </div>
+  <!-- 2. APRESENTAÇÃO INSTITUCIONAL -->
+  <header class="bg-gradient-to-b from-emerald-50 via-emerald-50/50 to-gray-50 py-12 px-4 border-b border-gray-100">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+        Plataforma Sustentável
+      </span>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 leading-relaxed">
+        Apresento a <span class="text-emerald-700">RECICLA MAP</span>, uma plataforma para auxiliar o descarte correto de produtos recicláveis. Vidro, Eletrônicos, Pilhas/Baterias, Papel, Metais, tem seu local certo para descarte e você encontra bem aqui.
+      </h1>
+    </div>
+  </header>
 
+  <!-- 3. MAPA & FERRAMENTAS DE PESQUISA -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
+    
+    <!-- Painel de Busca e Filtros -->
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-6">
+      <div class="flex flex-col sm:flex-row gap-3 mb-4">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input 
+            type="text" 
+            id="inputBusca" 
+            placeholder="Pesquise por nome do ecoponto ou tipo de material (ex: Vidro, Bateria)..." 
+            onkeyup="buscarPontos()"
+            class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          >
+        </div>
+      </div>
+
+      <!-- Filtros Dinâmicos -->
+      <div class="flex items-center gap-2 overflow-x-auto text-xs pb-1">
+        <span class="text-gray-400 font-medium mr-1">Filtrar:</span>
+        <button onclick="filtrarCategoria('todos')" class="flex items-center gap-1.5 bg-emerald-600 text-white font-medium px-3 py-1.5 rounded-lg whitespace-nowrap shadow-xs">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Todos
+        </button>
+        <button onclick="filtrarCategoria('vidro')" class="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+          <i data-lucide="wine" class="w-3.5 h-3.5 text-emerald-600"></i> Vidro
+        </button>
+        <button onclick="filtrarCategoria('eletronico')" class="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+          <i data-lucide="cpu" class="w-3.5 h-3.5 text-amber-500"></i> Eletrônicos
+        </button>
+        <button onclick="filtrarCategoria('pilha')" class="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-500"></i> Pilhas/Baterias
+        </button>
+        <button onclick="filtrarCategoria('papel')" class="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+          <i data-lucide="box" class="w-3.5 h-3.5 text-blue-500"></i> Papel
+        </button>
+        <button onclick="filtrarCategoria('metal')" class="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-gray-500"></i> Metais
+        </button>
+      </div>
+    </div>
+
+    <!-- Container do Mapa -->
+    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div id="map" class="w-full rounded-xl z-0"></div>
+    </div>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="bg-gray-900 text-gray-300 py-8 px-4 mt-auto border-t border-gray-800">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+      <div>
+        <div class="flex items-center justify-center md:justify-start gap-2 text-emerald-400 font-bold text-base mb-1">
+          <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+          <span>Projeto de Extensão Universitária</span>
+        </div>
+        <p class="text-xs text-gray-400 max-w-xl">
+          Esta plataforma foi desenvolvida para fins estritamente acadêmicos e comunitários no curso de Engenharia de Software. Alinhada aos Objetivos de Desenvolvimento Sustentável (ODS 3, 8 e 13) da ONU.
+        </p>
+      </div>
+
+      <div class="text-xs text-gray-400 border-t md:border-t-0 border-gray-800 pt-4 md:pt-0 w-full md:w-auto">
+        <p>© RECICLA MAP — Sem fins lucrativos.</p>
+        <p class="text-gray-400 mt-0.5">Uso comunitário e educativo.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script da Aplicação -->
+  <script>
+    // 1. Inicializa os Ícones Lucide
+    lucide.createIcons();
+
+    // 2. Base de Dados dos Ecopontos
+    const ecopontos = [
+      {
+        id: 1,
+        nome: "Ecoponto Central de Resíduos",
+        categoria: "eletronico",
+        lat: -23.55052,
+        lng: -46.633308,
+        horario: "08:00 - 17:00",
+        materiais: "Eletrônicos, Pilhas/Baterias, Metais"
+      },
+      {
+        id: 2,
+        nome: "Estação Recicla Vidros & Papel",
+        categoria: "vidro",
+        lat: -23.55300,
+        lng: -46.636000,
+        horario: "09:00 - 18:00",
+        materiais: "Vidro, Papel, Metais"
+      },
+      {
+        id: 3,
+        nome: "Ponto de Coleta Baterias e Pilhas",
+        categoria: "pilha",
+        lat: -23.54800,
+        lng: -46.630000,
+        horario: "24 horas",
+        materiais: "Pilhas/Baterias, Eletrônicos pequenos"
+      }
+    ];
+
+    // 3. Inicialização do Mapa Leaflet
+    const map = L.map('map').setView([-23.55052, -46.633308], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    let marcadoresAtuais = [];
+
+    // 4. Função para Renderizar Marcadores no Mapa
+    function carregarPontos(lista) {
+      marcadoresAtuais.forEach(m => map.removeLayer(m));
+      marcadoresAtuais = [];
+
+      lista.forEach(ponto => {
+        const marker = L.marker([ponto.lat, ponto.lng]).addTo(map);
+        marker.bindPopup(`
+          <div class="p-1">
+            <h3 class="font-bold text-gray-900 text-sm">${ponto.nome}</h3>
+            <p class="text-xs text-gray-600 mt-1"><b>Aceita:</b> ${ponto.materiais}</p>
+            <p class="text-xs text-gray-500"><b>Horário:</b> ${ponto.horario}</p>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${ponto.lat},${ponto.lng}" 
+               target="_blank" 
+               class="inline-block mt-2 text-xs bg-emerald-600 hover:bg-emerald-300 text-emerald-200 px-3 py-1.5 rounded-md font-medium transition">
+               🚗 Como Chegar
+            </a>
+          </div>
+        `);
+        marcadoresAtuais.push(marker);
+      });
+    }
+
+    // 5. Filtro por Categoria
+    function filtrarCategoria(cat) {
+      if (cat === 'todos') {
+        carregarPontos(ecopontos);
+      } else {
+        const filtrados = ecopontos.filter(p => p.categoria === cat || p.materiais.toLowerCase().includes(cat));
+        carregarPontos(filtrados);
+      }
+    }
+
+    // 6. Busca por Texto (Input)
+    function buscarPontos() {
+      const termo = document.getElementById('inputBusca').value.toLowerCase();
+      const filtrados = ecopontos.filter(p => 
+        p.nome.toLowerCase().includes(termo) || 
+        p.materiais.toLowerCase().includes(termo)
+      );
+      carregarPontos(filtrados);
+    }
+
+    // 7. Geolocalização
+    function obterLocalizacao() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          const { latitude, longitude } = pos.coords;
+          map.setView([latitude, longitude], 15);
+          L.marker([latitude, longitude]).addTo(map).bindPopup("<b>Sua localização atual</b>").openPopup();
+        }, () => {
+          alert("Não foi possível acessar sua localização.");
+        });
+      }
+    }
+
+    // Carregamento Inicial
+    carregarPontos(ecopontos);
+  </script>
 </body>
 </html>
